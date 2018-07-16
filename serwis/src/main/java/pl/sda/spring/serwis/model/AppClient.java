@@ -24,6 +24,4 @@ public class AppClient {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "appClient")
-    private List<Mobile> mobiles;
 }

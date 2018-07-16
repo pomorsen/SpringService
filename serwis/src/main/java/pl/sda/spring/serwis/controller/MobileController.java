@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.spring.serwis.dto.Mobile.*;
+import pl.sda.spring.serwis.model.AppClient;
 import pl.sda.spring.serwis.model.Mobile;
+import pl.sda.spring.serwis.service.AppClientService;
 import pl.sda.spring.serwis.service.MobileService;
 
 import javax.validation.Valid;
@@ -19,6 +21,9 @@ public class MobileController {
 
     @Autowired
     private MobileService mobileService;
+
+    @Autowired
+    private AppClientService appClientService;
 
     @GetMapping("/list/{mobile_id}")
     public ResponseEntity<Mobile> getMobileData(@PathVariable(name = "mobile_id") Long id) {
@@ -43,20 +48,26 @@ public class MobileController {
         return ResponseEntity.badRequest().build();
     }
 
-//    @PostMapping("/register")
-//    public void registerMobile(@RequestBody RegisterMobileDto dto){
-//        mobileService.registerMobile(dto);
-//    }
-@PostMapping("/client/{client_id}/addMobile")
-public void registerMobile(@PathVariable(name = "client_id") Long clientId, @RequestBody RegisterMobileDto dto){
-        mobileService.registerMobile(dto);
-}
+
+    @PostMapping("/client/{client_id}/addMobile")
+    public ResponseEntity<AddedMobileDto> registerMobile(@PathVariable(name = "client_id") Long clientId, @RequestBody RegisterMobileDto dto) {
+        Optional<AppClient> searchedClient = appClientService.getClientData(clientId);
+        if(searchedClient.isPresent()){
+            mobileService.registerMobile(clientId, dto);
+            return ResponseEntity.ok(new AddedMobileDto(
+                    dto.getRegister_brand(),
+                    dto.getRegister_model(),
+                    dto.getRegister_client().getId()
+            ));
+        }
+        return ResponseEntity.badRequest().build();
+    }
 
 
     @PostMapping("/remove")
-    public ResponseEntity<RemoveMobileDto> removeMobile(@RequestBody RemoveMobileDto dto){
-        Optional<Mobile> removeMobile = mobileService.removeMobile(dto.getRemove_id(),dto);
-        if(removeMobile.isPresent()){
+    public ResponseEntity<RemoveMobileDto> removeMobile(@RequestBody RemoveMobileDto dto) {
+        Optional<Mobile> removeMobile = mobileService.removeMobile(dto.getRemove_id(), dto);
+        if (removeMobile.isPresent()) {
             ResponseEntity.ok(new DeletedMobileDto(removeMobile.get()));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

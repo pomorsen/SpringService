@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.sda.spring.serwis.model.AppClient;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

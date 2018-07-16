@@ -2,6 +2,7 @@ package pl.sda.spring.serwis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.sda.spring.serwis.dto.AppClient.AppClientDto;
 import pl.sda.spring.serwis.dto.Mobile.EditMobileDto;
 import pl.sda.spring.serwis.dto.Mobile.MobileDto;
 import pl.sda.spring.serwis.dto.Mobile.RegisterMobileDto;
@@ -35,8 +36,8 @@ public class MobileService {
                 .collect(Collectors.toList());
     }
 
-    public void registerMobile(RegisterMobileDto dto) {
-        Optional<AppClient> searchedClient = appClientRepository.findById(dto.getRegister_client().getId());
+    public void registerMobile(Long clientId, RegisterMobileDto dto) {
+        Optional<AppClient> searchedClient = appClientRepository.findById(clientId);
         if (searchedClient.isPresent()) {
             AppClient client = searchedClient.get();
 
@@ -46,9 +47,7 @@ public class MobileService {
                     dto.getRegister_model(),
                     dto.getRegister_client()
             );
-
-
-
+        mobileRepository.save(mobile);
         }
     }
 
