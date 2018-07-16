@@ -10,9 +10,14 @@ import pl.sda.spring.serwis.model.AppClient;
 @AllArgsConstructor
 public class AppClientDto {
     private long id;
-    private String email, name, surname;
+    private String email, name, surname, address;
 
     public static AppClientDto createDto(AppClient client){
-        return new AppClientDto(client.getId(),client.getEmail(),client.getName(), client.getSurname());
+        return new AppClientDto(
+                client.getId(),
+                client.getEmail(),
+                client.getName(),
+                client.getSurname(),
+                client.getAddress());
     }
 }

@@ -8,6 +8,7 @@ import pl.sda.spring.serwis.dto.Mobile.*;
 import pl.sda.spring.serwis.model.Mobile;
 import pl.sda.spring.serwis.service.MobileService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,10 +43,15 @@ public class MobileController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/register")
-    public void registerMobile(@RequestBody RegisterMobileDto dto){
+//    @PostMapping("/register")
+//    public void registerMobile(@RequestBody RegisterMobileDto dto){
+//        mobileService.registerMobile(dto);
+//    }
+@PostMapping("/client/{client_id}/addMobile")
+public void registerMobile(@PathVariable(name = "client_id") Long clientId, @RequestBody RegisterMobileDto dto){
         mobileService.registerMobile(dto);
-    }
+}
+
 
     @PostMapping("/remove")
     public ResponseEntity<RemoveMobileDto> removeMobile(@RequestBody RemoveMobileDto dto){

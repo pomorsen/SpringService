@@ -17,10 +17,13 @@ public class AppClient {
 
     private String email;
     private String password;
-    private String name, surname;
+    private String name, surname, address;
 
     public AppClient(String email, String password) {
         this.email = email;
         this.password = password;
     }
+
+    @OneToMany(mappedBy = "appClient")
+    private List<Mobile> mobiles;
 }

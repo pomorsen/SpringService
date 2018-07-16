@@ -15,16 +15,14 @@ public class Mobile {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id")
     private AppClient appClient;
 
     private String brand, model, os, cpu, memory;
 
-
-    public Mobile(String brand, String model, Long appClientId ) {
+    public Mobile(String brand, String model, AppClient appClient) {
         this.brand = brand;
         this.model = model;
-        this.appClient.setId(appClientId);
+        this.appClient = appClient;
     }
-
-
 }

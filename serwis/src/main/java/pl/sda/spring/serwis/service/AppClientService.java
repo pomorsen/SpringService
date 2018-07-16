@@ -66,6 +66,10 @@ public class AppClientService {
                 client.setSurname(dto.getEdit_surname());
             }
 
+            if(dto.getEdit_address() != null){
+                client.setAddress(dto.getEdit_address());
+            }
+
             client = appClientRepository.save(client);
 
             return Optional.of(client);

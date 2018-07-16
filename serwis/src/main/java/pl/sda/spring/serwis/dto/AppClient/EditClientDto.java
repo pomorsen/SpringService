@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class EditClientDto {
     private String edit_name;
     private String edit_surname;
+    private String edit_address;
 }
